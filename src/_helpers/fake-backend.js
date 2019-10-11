@@ -70,7 +70,7 @@ export function configureFakeBackend() {
                 if (url.endsWith('/tokens') && opts.method === 'GET') {
                     // find if any user matches login credentials
                     let filteredUsers = users.filter(user => {
-                        return user.authorization ===opts.headers.get('Authorization');
+                        return user.authorization === opts.headers.get('Authorization');
                     });
 
                     if (filteredUsers.length) {
