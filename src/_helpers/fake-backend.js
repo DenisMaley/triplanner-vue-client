@@ -13,7 +13,7 @@ export function configureFakeBackend() {
         last_seen: "2019-10-01T06:40:20.507757Z",
         post_count: 14,
         username: "test",
-        password: "test"
+        authorization: "Basic dGVzdDp0ZXN0", // Authorization for username:password === test:test
     };
 
     let users = [user];
@@ -70,7 +70,7 @@ export function configureFakeBackend() {
                 if (url.endsWith('/tokens') && opts.method === 'GET') {
                     // find if any user matches login credentials
                     let filteredUsers = users.filter(user => {
-                        return user.username === opts.auth.username && user.password === opts.auth.password;
+                        return user.authorization ===opts.headers.get('Authorization');
                     });
 
                     if (filteredUsers.length) {
@@ -91,7 +91,7 @@ export function configureFakeBackend() {
                 }
 
                 // get posts
-                if (url.endsWith('/posts') && opts.method === 'GET') {
+                if (url.endsWith('/posts?page=1') && opts.method === 'GET') {
                     // check for fake auth token in header and return posts if valid, this security is implemented server side in a real application
                     if (opts.headers && opts.headers.Authorization === 'Bearer fake-jwt-token') {
                         resolve({ ok: true, text: () => Promise.resolve(JSON.stringify(posts)) });

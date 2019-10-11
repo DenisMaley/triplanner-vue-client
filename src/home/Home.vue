@@ -20,7 +20,6 @@
     export default {
         computed: {
             user() {
-                console.log(this.$store.state.authentication);
                 return this.$store.state.authentication.user;
             },
             posts() {

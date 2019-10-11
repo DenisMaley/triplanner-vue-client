@@ -19,7 +19,6 @@ function login(username, password) {
     return fetch(`${config.apiUrl}/tokens`, requestOptions)
         .then(handleResponse)
         .then(data => {
-            console.log (data);
             // login successful if there's a jwt token in the response
             if (data.token) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
