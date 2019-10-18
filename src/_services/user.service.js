@@ -1,9 +1,35 @@
 import config from 'config';
 
 export const userService = {
+    register,
     login,
     logout
 };
+
+function register(username, email, password) {
+
+    const data = {
+        'username': username,
+        'email': email,
+        'password': password
+    };
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    };
+
+    return fetch(`${config.apiUrl}/users`, requestOptions)
+        .then(handleResponse)
+        .then(data => {
+            console.log(data);
+
+            return data;
+        });
+}
 
 function login(username, password) {
 
@@ -40,6 +66,8 @@ function handleResponse(response) {
     return response.text().then(text => {
         const data = text && JSON.parse(text);
         if (!response.ok) {
+
+            console.log(data);
 
             let error = (data && data.message) || response.statusText;
 
